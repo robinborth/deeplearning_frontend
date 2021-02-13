@@ -1,0 +1,31 @@
+$imageGridSize: 20px;
+$countCells: 28;
+
+body{
+  background-color: #F2F2F2;
+}
+
+.image-grid-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: $imageGridSize * $countCells;
+  margin: auto;
+  max-width: $imageGridSize * $countCells;
+  .image-grid {
+    position: relative;
+    width: $imageGridSize * $countCells;
+    height: $imageGridSize * $countCells;
+    background-color: white;
+    .image-gird-cell {
+      background: white;
+      position: absolute;
+      width: $imageGridSize;
+      height: $imageGridSize;
+    }
+    .image-gird-cell:hover {
+      background-color: black;
+    }
+  }
+
+}

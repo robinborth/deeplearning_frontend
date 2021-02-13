@@ -1,0 +1,29 @@
+body {
+  background-color: #F2F2F2;
+}
+
+.image-grid-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 560px;
+  margin: auto;
+  max-width: 560px;
+}
+.image-grid-container .image-grid {
+  position: relative;
+  width: 560px;
+  height: 560px;
+  background-color: white;
+}
+.image-grid-container .image-grid .image-gird-cell {
+  background: white;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+.image-grid-container .image-grid .image-gird-cell:hover {
+  background-color: black;
+}
+
+/*# sourceMappingURL=main.css.map */
