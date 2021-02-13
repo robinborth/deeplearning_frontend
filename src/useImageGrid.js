@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 
 let mousedown = false;
 const count_cell = 28;
@@ -9,28 +9,24 @@ export const useImageGrid = ({imageGridRef}) => {
 
     const setCellsAtPosition = (cells) => setImageGrid(prevImageGrid => {
         const curImageGrid = [...prevImageGrid];
-        console.log('logging cells', cells);
         cells.forEach(({row_index, col_index, value})=>{
-            console.log(row_index, col_index, value);
-            curImageGrid[row_index][col_index] = value;
+            //console.log(row_index, col_index, value);
+            curImageGrid[row_index][col_index] = Math.max(value, curImageGrid[row_index][col_index]);
         });
         return curImageGrid;
     });
 
 
     useEffect(() => {
-        const startUpdatingCells = (e) => {
+        const startUpdatingCells = () => {
             if (!mousedown) {
                 mousedown = true;
-                window.addEventListener("mousemove", updatingCells);
-                updatingCells(e);
             }
         }
 
         const endUpdatingCells = () => {
             if (mousedown) {
                 mousedown = false;
-                window.removeEventListener("mousemove", updatingCells);
             }
         }
 
@@ -71,24 +67,14 @@ export const useImageGrid = ({imageGridRef}) => {
                 return {...pos, row_index, col_index, value}
             })
 
-            console.log(multiCursors);
+            //console.log(multiCursors);
 
             multiCursors = multiCursors.filter(({value}) => value > 0);
 
-            console.log(multiCursors);
+            //console.log(multiCursors);
 
             if(multiCursors) return multiCursors;
             return {error: -1};
-        }
-
-        const getTargetCell = (relCursorPos, width, height) => {
-            if (relCursorPos.x < 0 || relCursorPos.y < 0) return {error: -1};
-            if (relCursorPos.x > width || relCursorPos.y > height) return {error: -1};
-            let row_index = Math.floor(relCursorPos.y / 20)
-            let col_index = Math.floor(relCursorPos.x / 20)
-            if (row_index >= 28) row_index = 27;
-            if (col_index >= 28) col_index = 27;
-            return {row_index, col_index}
         }
 
         const updatingCells = (e) => {
@@ -97,18 +83,19 @@ export const useImageGrid = ({imageGridRef}) => {
                 const relCursorPos = getRelCursorPos(e, x, y);
                 const targetCells = getTargetCells(relCursorPos, width, height);
                 if (!targetCells.error) setCellsAtPosition(targetCells);
-
             }
         }
 
         if (imageGridRef && imageGridRef.current) {
             window.addEventListener("mousedown", startUpdatingCells);
             window.addEventListener("mouseup", endUpdatingCells);
+            window.addEventListener("mousemove", updatingCells)
         }
 
         return () => {
             window.removeEventListener("mousedown", startUpdatingCells);
             window.removeEventListener("mouseup", endUpdatingCells);
+            window.removeEventListener("mousemove", updatingCells);
         }
     }, [imageGridRef, imageGrid]);
 
