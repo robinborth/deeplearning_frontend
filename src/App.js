@@ -1,18 +1,45 @@
 import React, {useContext, useRef} from 'react'
-import {useImageGrid} from "./useImageGrid";
+import {useImageGrid, initialImageGrid} from "./useImageGrid";
 
 function App() {
     const imageGridRef = useRef();
-    const {imageGrid} = useImageGrid({imageGridRef});
+    const {imageGrid, setImageGrid} = useImageGrid({imageGridRef});
 
     return (
-        <ImageGridContext.Provider value={{imageGrid, imageGridRef}}>
+        <ImageGridContext.Provider value={{imageGrid, setImageGrid, imageGridRef}}>
             <h1>ImageGrid</h1>
             <ImageGridContainer/>
+            <Controller/>
         </ImageGridContext.Provider>
     );
 }
 
+const Controller = () => {
+    const {imageGrid, setImageGrid} = useContext(ImageGridContext);
+
+    async function handleSend() {
+        console.log('sending');
+        const url = 'https://servermnist.herokuapp.com/mnist/api/v1.0/model';
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({image: imageGrid})
+        });
+        const json = await response.json()
+        console.log('response');
+        console.log(json);
+    }
+
+    const handleUndo = () => setImageGrid(initialImageGrid())
+
+    return <>
+        <button onClick={() => handleUndo()}>Undo</button>
+        <button onClick={() => handleSend()}>Send</button>
+    </>
+}
 
 const ImageGridContext = React.createContext([]);
 
