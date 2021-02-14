@@ -1,77 +1,42 @@
-import React, {useContext, useRef} from 'react'
-import {useImageGrid, initialImageGrid} from "./useImageGrid";
+import React, {useState, useContext, useEffect} from 'react'
+import {ImageGridContainer} from "./components/image-grid";
+import {ServerStatusContext, serverStatusUrl, postFetch, modelUrl} from "./data";
+import {icons} from "./data";
+
 
 function App() {
-    const imageGridRef = useRef();
-    const {imageGrid, setImageGrid} = useImageGrid({imageGridRef});
+    const [serverStatus, setServerStatus] = useState({});
 
-    return (
-        <ImageGridContext.Provider value={{imageGrid, setImageGrid, imageGridRef}}>
-            <h1>ImageGrid</h1>
-            <ImageGridContainer/>
-            <Controller/>
-        </ImageGridContext.Provider>
-    );
-}
-
-const Controller = () => {
-    const {imageGrid, setImageGrid} = useContext(ImageGridContext);
-
-    async function handleSend() {
-        console.log('sending');
-        const url = 'https://servermnist.herokuapp.com/mnist/api/v1.0/model';
-        const response = await fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({image: imageGrid})
+    useEffect(() => {
+        postFetch({
+            url: serverStatusUrl,
+            body: {},
+        }).then(response => {
+            setTimeout(()=>setServerStatus(response),3000)
         });
-        const json = await response.json()
-        console.log('response');
-        console.log(json);
-    }
+    }, [serverStatus]);
 
-    const handleUndo = () => setImageGrid(initialImageGrid())
-
-    return <>
-        <button onClick={() => handleUndo()}>Undo</button>
-        <button onClick={() => handleSend()}>Send</button>
-    </>
-}
-
-const ImageGridContext = React.createContext([]);
-
-const ImageGridContainer = () => {
-    const {imageGrid, imageGridRef} = useContext(ImageGridContext);
-    return (
-        <div className='image-grid-container'>
-            <div className='image-grid' ref={imageGridRef}>
-                {imageGrid.map((row, index) => <ImageRow key={index} row={row} row_index={index}/>)}
-            </div>
+    return <ServerStatusContext.Provider value={{serverStatus, setServerStatus}}>
+        <div className='container'>
+            <ImageGridContainer/>
+            <ServerStatusContainer/>
+            <CopyRight/>
         </div>
-    );
+    </ServerStatusContext.Provider>;
 }
 
-const ImageRow = ({row, row_index}) => {
-    return <>
-        {row.map((col, index) => <ImageCell key={index} col_index={index} row_index={row_index}/>)}
-    </>
+const ServerStatusContainer = () => {
+    const {serverStatus} = useContext(ServerStatusContext);
+    return <div className='fixed-bottom text-center mb-5'>
+        <p><strong className='p-2 text-uppercase'>REST API:</strong> {modelUrl}</p>
+        <p><strong className='p-2 text-uppercase'>Server Status:</strong> <i className={`${icons.server} ${serverStatus.status ? 'text-success' : 'text-danger'}`}>{}</i></p>
+    </div>;
 }
 
-const ImageCell = ({row_index, col_index}) => {
-    const {imageGrid} = useContext(ImageGridContext);
-    const opacity = imageGrid[row_index][col_index]
-    const cellPosition = {
-        left: `${col_index * 20}px`,
-        top: `${row_index * 20}px`,
-        backgroundColor: 'black',
-        opacity: opacity,
-    }
-    return (
-        <div className='image-gird-cell' style={cellPosition}>{}</div>
-    );
+const CopyRight = () => {
+    return <div className='fixed-bottom text-center mb-3'>
+        <h5>&copy; Robin Borth</h5>
+    </div>;
 }
 
 export default App;

@@ -1,8 +1,10 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
 $imageGridSize: 20px;
 $countCells: 28;
 
 body{
-  background-color: #F2F2F2;
+  background-color: white;
 }
 
 .image-grid-container{
@@ -12,11 +14,12 @@ body{
   height: $imageGridSize * $countCells;
   margin: auto;
   max-width: $imageGridSize * $countCells;
+  overflow: hidden;
+  border-radius: 2rem;
   .image-grid {
     position: relative;
     width: $imageGridSize * $countCells;
     height: $imageGridSize * $countCells;
-    background-color: white;
     .image-gird-cell {
       background: white;
       position: absolute;
@@ -27,5 +30,19 @@ body{
       background-color: black;
     }
   }
+}
 
+.image-grid-container:hover{
+  cursor: pointer;
+}
+.controller-button{
+  padding: 1rem;
+  width: 120px;
+  i{
+    font-size: 3rem;
+  }
+  p{
+    padding: 0;
+    margin: 0;
+  }
 }

@@ -1,16 +1,15 @@
 import {useState, useEffect} from 'react';
+import {initialImageGrid} from "./image-grid";
 
 let mousedown = false;
-const count_cell = 28;
-export const initialImageGrid = () => [...new Array(count_cell)].map(() => [...new Array(count_cell)].map(() => 0));
 
 export const useImageGrid = ({imageGridRef}) => {
     const [imageGrid, setImageGrid] = useState(initialImageGrid());
 
+
     const setCellsAtPosition = (cells) => setImageGrid(prevImageGrid => {
         const curImageGrid = [...prevImageGrid];
         cells.forEach(({row_index, col_index, value})=>{
-            //console.log(row_index, col_index, value);
             curImageGrid[row_index][col_index] = Math.max(value, curImageGrid[row_index][col_index]);
         });
         return curImageGrid;
@@ -67,11 +66,9 @@ export const useImageGrid = ({imageGridRef}) => {
                 return {...pos, row_index, col_index, value}
             })
 
-            //console.log(multiCursors);
 
             multiCursors = multiCursors.filter(({value}) => value > 0);
 
-            //console.log(multiCursors);
 
             if(multiCursors) return multiCursors;
             return {error: -1};
