@@ -1,7 +1,6 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {ImageGridContainer} from "./components/image-grid";
-import {ServerStatusContext, serverStatusUrl, postFetch, modelUrl} from "./data";
-import {icons} from "./data";
+import {ServerStatusContext, serverStatusUrl, postFetch} from "./data";
 
 
 function App() {

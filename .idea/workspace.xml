@@ -4,11 +4,6 @@
     <list default="true" id="1b0aad14-37e4-4daf-8427-805fb5ddf4db" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/image-grid-controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/image-grid-controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/image-grid.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/image-grid.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/css/main.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/main.css.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/css/main.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/css/main.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +73,7 @@
       <workItem from="1613156679027" duration="6558000" />
       <workItem from="1613211940687" duration="7982000" />
       <workItem from="1613220580730" duration="16548000" />
-      <workItem from="1613320645975" duration="20514000" />
+      <workItem from="1613320645975" duration="20698000" />
     </task>
     <servers />
   </component>
