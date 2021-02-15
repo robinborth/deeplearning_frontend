@@ -1,7 +1,7 @@
 import React, {useContext, useState, useRef} from 'react'
 import {useImageGrid} from './useImageGrid'
 import {ImageGridController} from "./image-grid-controller";
-import {ModelResponseStatusContext, ImageGridContext} from "../data";
+import {ModelResponseStatusContext, ImageGridContext, ServerStatusContext, modelUrl, icons} from "../data";
 
 
 export const initialImageGrid = () => [...new Array(28)].map(() => [...new Array(28)].map(() => 0));
@@ -9,19 +9,21 @@ export const initialImageGrid = () => [...new Array(28)].map(() => [...new Array
 export const ImageGridContainer = () => {
     const imageGridRef = useRef();
     const {imageGrid, setImageGrid} = useImageGrid({imageGridRef});
-    const [modelResponse, setModelResponse] = useState({});
+    const [modelResponse, setModelResponse] = useState({noDraw: 'noDraw'});
 
     return (
         <ModelResponseStatusContext.Provider value={{modelResponse, setModelResponse}}>
             <ImageGridContext.Provider value={{imageGrid, setImageGrid, imageGridRef}}>
-                <div className='row'>
-                    <div className='col-lg-8 col-xxl-6'>
+                <h1 className='text-center mb-5 mt-5 mt-lg-0'>MINST Dataset - CNN for Digit Recognition </h1>
+                <div className='row mb-5'>
+                    <div className='col-lg-7 col-xxl-6'>
                         <ImageGrid/>
                     </div>
-                    <div className='col-lg-4 col-xxl-6'>
-                        <h1 className='text-center mt-5 mb-5'>ImageGrid</h1>
-                        <ImageGridController onClick={() => alert('test')}/>
+                    <div className='col-lg-5 col-xxl-6 m-auto ps-3 ps-lg-4 mt-3 mt-lg-auto'>
+                        <h2 className='mb-4'>Please draw something on the canvas!</h2>
+                        <ServerStatusContainer />
                         <ImageGridResult/>
+                        <ImageGridController onClick={() => alert('test')}/>
                     </div>
                 </div>
             </ImageGridContext.Provider>
@@ -30,16 +32,30 @@ export const ImageGridContainer = () => {
     );
 }
 
+const ServerStatusContainer = () => {
+    const {serverStatus} = useContext(ServerStatusContext);
+    return <>
+        <p className='text-break'><strong className='pe-2 text-uppercase'>REST API:</strong> {modelUrl}</p>
+        <p><strong className='pe-2 text-uppercase'>Server Status:</strong> <i
+            className={`${icons.server} ${serverStatus.status ? 'text-success' : 'text-danger'} pe-2`}>{}</i>
+            <small className='server-status'>{serverStatus.status ? 'Heroku ready!' : 'Heroku sleeps this can take a few seconds!'}</small>
+        </p>
+    </>;
+}
+
+
 const ImageGridResult = () => {
     const {modelResponse} = useContext(ModelResponseStatusContext);
-    const {prediction, error, loading} = modelResponse;
+    const {prediction, error, loading, noDraw} = modelResponse;
     //console.log(modelResponse);
     //console.log(prediction);
-    return <h1 className='text-center'>
-        {prediction && `The Result is ${prediction}`}
+    return <p><strong className='pe-2 text-uppercase'>CNN Response:</strong>
+        <strong>{prediction && `The Result is ${prediction}`}
         {error && `Ups something went wrong. Please check if the server is available!`}
-        {loading && `Loading`}
-    </h1>
+        {loading && `Loading ...`}
+        {noDraw && `Please draw something on the canvas!`}
+        </strong>
+    </p>
 }
 
 

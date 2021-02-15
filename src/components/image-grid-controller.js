@@ -20,7 +20,7 @@ export const ImageGridController = () => {
 
     const handleUndo = () => setImageGrid(initialImageGrid())
 
-    return <div className='d-flex justify-content-evenly align-items-center'>
+    return <div className='d-flex justify-content-evenly align-items-center mt-5'>
         <ControllerButton handleClick={handleUndo} status={'danger'} icon={icons.undo} text={'Undo'}/>
         <ControllerButton handleClick={handleSend} status={'success'} icon={icons.send} text={'Send'}/>
     </div>;

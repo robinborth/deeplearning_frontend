@@ -12,26 +12,18 @@ function App() {
             url: serverStatusUrl,
             body: {},
         }).then(response => {
-            setTimeout(()=>setServerStatus(response),3000)
-        });
+            setTimeout(() => setServerStatus(response), 3000)
+        }).catch(_ => setTimeout(() => setServerStatus({error: 'error'}), 3000));
     }, [serverStatus]);
 
     return <ServerStatusContext.Provider value={{serverStatus, setServerStatus}}>
         <div className='container'>
             <ImageGridContainer/>
-            <ServerStatusContainer/>
             <CopyRight/>
         </div>
     </ServerStatusContext.Provider>;
 }
 
-const ServerStatusContainer = () => {
-    const {serverStatus} = useContext(ServerStatusContext);
-    return <div className='fixed-bottom text-center mb-5'>
-        <p><strong className='p-2 text-uppercase'>REST API:</strong> {modelUrl}</p>
-        <p><strong className='p-2 text-uppercase'>Server Status:</strong> <i className={`${icons.server} ${serverStatus.status ? 'text-success' : 'text-danger'}`}>{}</i></p>
-    </div>;
-}
 
 const CopyRight = () => {
     return <div className='fixed-bottom text-center mb-3'>

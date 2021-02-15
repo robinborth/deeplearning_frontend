@@ -4,7 +4,11 @@ $imageGridSize: 20px;
 $countCells: 28;
 
 body{
+  height: 100vh;
   background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .image-grid-container{
@@ -37,12 +41,17 @@ body{
 }
 .controller-button{
   padding: 1rem;
-  width: 120px;
+  width: 150px;
   i{
-    font-size: 3rem;
+    font-size: 2rem;
   }
   p{
     padding: 0;
     margin: 0;
   }
+}
+
+.server-status{
+  position: absolute;
+  transform: translateY(2px);
 }
